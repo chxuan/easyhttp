@@ -7,10 +7,17 @@
  */
 #pragma once
 
+#include "easyhttp/easyhttp.h"
+
 class http_server_test
 {
 public:
+    http_server_test();
+    ~http_server_test();
+
+    void run();
+    void stop();
 
 private:
-
+    std::shared_ptr<http_server> server_;
 };

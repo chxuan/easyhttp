@@ -1,13 +1,9 @@
 #include "tcp_session.h"
-#include "easyrpc/utility/logger.h"
-#include "easyrpc/codec/codec.h"
+#include "easyhttp/utility/logger.h"
 
-tcp_session::tcp_session(const std::shared_ptr<codec>& dec, boost::asio::io_service& ios, 
-                         const std::function<void(const std::string&)>& closed_callback)
-    : codec_(dec), 
-    ios_(ios), 
-    socket_(ios),
-    closed_callback_(closed_callback)
+tcp_session::tcp_session(boost::asio::io_service& ios) 
+    : ios_(ios), 
+    socket_(ios)
 {
 
 }
@@ -43,33 +39,6 @@ boost::asio::io_service& tcp_session::get_io_service()
 boost::asio::ip::tcp::socket& tcp_session::get_socket()
 {
     return socket_;
-}
-
-std::shared_ptr<codec>& tcp_session::get_codec()
-{
-    return codec_;
-}
-
-std::string tcp_session::get_session_id()
-{
-    if (session_id_.empty())
-    {
-        if (socket_.is_open())
-        {
-            boost::system::error_code ec, ec2;
-            auto local_endpoint = socket_.local_endpoint();
-            auto remote_endpoint = socket_.remote_endpoint();
-            if (!ec && !ec2)
-            {
-                session_id_ = local_endpoint.address().to_string() + ":"
-                    + std::to_string(local_endpoint.port()) + "&"
-                    + remote_endpoint.address().to_string() + ":"
-                    + std::to_string(remote_endpoint.port());
-            }
-        }
-    }
-
-    return session_id_;
 }
 
 void tcp_session::async_write(const std::shared_ptr<std::string>& network_data)
@@ -115,6 +84,7 @@ void tcp_session::async_write_loop()
 
 void tcp_session::async_read()
 {
+#if 0
     resize_buffer(codec_->get_next_recv_bytes());
     auto self(shared_from_this());
     boost::asio::async_read(socket_, boost::asio::buffer(buffer_), 
@@ -130,6 +100,7 @@ void tcp_session::async_read()
             deal_connection_closed();
         }
     });
+#endif
 }
 
 void tcp_session::set_no_delay()
@@ -147,6 +118,5 @@ void tcp_session::resize_buffer(int size)
 void tcp_session::deal_connection_closed()
 {
     close();
-    closed_callback_(get_session_id());
 }
 
