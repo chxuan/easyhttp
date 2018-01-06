@@ -320,7 +320,7 @@ parse_result http_parser::deal_expecting_newline_2(char ch)
 
 parse_result http_parser::deal_expecting_newline_3(char ch)
 {
-    return (ch == '\n') ? parse_result::finished : parse_result::error;
+    return is_line_begin(ch) ? parse_result::finished : parse_result::error;
 }
 
 bool http_parser::is_char(int ch)
