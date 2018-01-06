@@ -117,11 +117,24 @@ void tcp_session::async_read()
             {
                 std::cout << request_.method << std::endl;
                 std::cout << request_.uri << std::endl;
-                std::cout << request_.http_version_major << ", " << request_.http_version_minor << std::endl;
+                std::cout << request_.http_main_version << ", " << request_.http_sub_version << std::endl;
+                for (auto& param : request_.params)
+                {
+                    std::cout << param.name << ", " << param.value << std::endl;
+                }
                 for (auto& header : request_.headers)
                 {
                     std::cout << header.name << ", " << header.value << std::endl;
                 }
+                std::cout << "body: " << request_.body << std::endl;
+            }
+            else if (ret == parse_result::error)
+            {
+                std::cout << "parse error" << std::endl;
+            }
+            else
+            {
+                async_read();
             }
         }
         else if (active_ && ec != boost::asio::error::operation_aborted)
