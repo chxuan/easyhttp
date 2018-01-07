@@ -1,4 +1,5 @@
 #include "http_server_test.h"
+#include <fstream>
 
 using namespace std::placeholders;
 
@@ -6,6 +7,7 @@ http_server_test::http_server_test()
 {
     server_ = std::make_shared<http_server>("0.0.0.0:6666", 4, 4);
     server_->bind("/add", std::bind(&http_server_test::deal_add, this, _1, _2));
+    server_->bind("/download", std::bind(&http_server_test::deal_download, this, _1, _2));
 }
 
 http_server_test::~http_server_test()
@@ -34,5 +36,28 @@ void http_server_test::deal_add(const std::shared_ptr<request>& req, const std::
 {
     int a = std::atoi(req->get_param_value("a").c_str());
     int b = std::atoi(req->get_param_value("b").c_str());
+    log_info << "a + b = " << a + b;
     res->set_response(std::to_string(a + b));
+}
+
+void http_server_test::deal_download(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
+{
+    std::string file_name = req->get_param_value("music");
+    std::ifstream file(file_name, std::ios::binary);
+    if (!file)
+    {
+        res->set_response(status_type::not_found);
+        log_warn << "Not find file name: " << file_name;
+        return;
+    }
+
+    static const int max_buf_size = 5 * 1024 * 1024;
+    char* buf = new char[max_buf_size];
+
+    file.read(buf, max_buf_size);
+    log_info << file_name << " file size: " << file.gcount();
+    file.close();
+
+    res->set_response(std::string(buf, file.gcount()));
+    delete[] buf;
 }
