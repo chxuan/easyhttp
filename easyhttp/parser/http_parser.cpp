@@ -1,15 +1,5 @@
 #include "http_parser.h"
 
-http_parser::http_parser()
-{
-    reset();
-}
-
-void http_parser::reset()
-{
-    state_ = parse_state::method_start;
-}
-
 parse_result http_parser::parse_each_char(request& req, char ch)
 {
     switch (state_)
@@ -409,12 +399,7 @@ parse_result http_parser::deal_expecting_newline_3(request& req, char ch)
 parse_result http_parser::deal_body(request& req, char ch)
 {
     req.body[pos_++] = ch;
-    if (pos_ != body_len_)
-    {
-        return parse_result::indeterminate;
-    }
-
-    return parse_result::finished;
+    return pos_ != body_len_ ? parse_result::indeterminate : parse_result::finished;
 }
 
 bool http_parser::is_char(int ch)

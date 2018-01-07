@@ -95,10 +95,6 @@ enum class parse_state : unsigned char
 class http_parser
 {
 public:
-    http_parser();
-
-    void reset();
-
     template <typename InputIterator>
     parse_result parse(request& req, InputIterator begin, InputIterator end)
     {
@@ -150,7 +146,7 @@ private:
     static bool is_line_end(char ch);
 
 private:
-    parse_state state_;
+    parse_state state_ = parse_state::method_start;
     int body_len_ = 0;
     int pos_ = 0;
 };
