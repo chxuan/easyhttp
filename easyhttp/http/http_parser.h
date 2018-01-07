@@ -7,55 +7,7 @@
  */
 #pragma once
 
-#include <string>
-#include <vector>
-
-struct header
-{
-    std::string name;
-    std::string value;
-};
-
-struct param
-{
-    std::string name;
-    std::string value;
-};
-
-struct request
-{
-    std::string get_param(const std::string& name)
-    {
-        for (auto& param : params)
-        {
-            if (param.name == name)
-            {
-                return param.value;
-            }
-        }
-
-        return "";
-    }
-    std::string get_header(const std::string& name)
-    {
-        for (auto& header : headers)
-        {
-            if (header.name == name)
-            {
-                return header.value;
-            }
-        }
-
-        return "";
-    }
-    std::string method;
-    std::string uri;
-    std::vector<param> params;
-    int http_main_version;
-    int http_sub_version;
-    std::vector<header> headers;
-    std::string body;
-};
+#include "request.h"
 
 enum class parse_result : unsigned char
 {
