@@ -10,6 +10,7 @@
 #include <boost/asio.hpp>
 #include "easyhttp/utility/threadsafe_list.h"
 #include "easyhttp/http/http_parser.h"
+#include "easyhttp/http/response.h"
 
 class tcp_session : public std::enable_shared_from_this<tcp_session>
 {

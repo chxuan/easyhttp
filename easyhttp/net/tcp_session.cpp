@@ -11,6 +11,7 @@ tcp_session::tcp_session(boost::asio::io_service& ios)
 
 tcp_session::~tcp_session()
 {
+    std::cout << "********************end*************" << std::endl;
     close();
 }
 
@@ -109,6 +110,11 @@ void tcp_session::async_read()
                     std::cout << header.name << ", " << header.value << std::endl;
                 }
                 std::cout << "body: " << request_.body << std::endl;
+
+                response rsp;
+                auto network_data = rsp.pack(status_type::ok, "nihao");
+                std::cout << *network_data << std::endl;
+                async_write(network_data);
             }
             else if (ret == parse_result::error)
             {
@@ -123,34 +129,6 @@ void tcp_session::async_read()
         {
             deal_connection_closed();
         }
-
-#if 0
-    boost::tribool result;
-    boost::tie(result, boost::tuples::ignore) = request_parser_.parse(
-        request_, buffer_.data(), buffer_.data() + bytes_transferred);
-
-    if (result)
-    {
-      request_handler_.handle_request(request_, reply_);
-      boost::asio::async_write(socket_, reply_.to_buffers(),
-          boost::bind(&connection::handle_write, shared_from_this(),
-            boost::asio::placeholders::error));
-    }
-    else if (!result)
-    {
-      reply_ = reply::stock_reply(reply::bad_request);
-      boost::asio::async_write(socket_, reply_.to_buffers(),
-          boost::bind(&connection::handle_write, shared_from_this(),
-            boost::asio::placeholders::error));
-    }
-    else
-    {
-      socket_.async_read_some(boost::asio::buffer(buffer_),
-          boost::bind(&connection::handle_read, shared_from_this(),
-            boost::asio::placeholders::error,
-            boost::asio::placeholders::bytes_transferred));
-    }
-#endif
     });
 }
 
