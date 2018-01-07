@@ -37,7 +37,12 @@ A modern C++ http framework
         return 0;
     }
     ```
-    
+
+    在浏览器中输入该网址即可访问。
+    ```
+    http://localhost:6666/add?a=1&b=1
+    ```
+
 ## 开发平台
 
 * Ubuntu17.10 gcc7.2.0
