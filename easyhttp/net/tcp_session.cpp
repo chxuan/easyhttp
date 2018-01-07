@@ -36,14 +36,14 @@ void tcp_session::close()
     }
 }
 
-boost::asio::io_service& tcp_session::get_io_service()
-{
-    return ios_;
-}
-
 boost::asio::ip::tcp::socket& tcp_session::get_socket()
 {
     return socket_;
+}
+
+std::shared_ptr<http_parser>& tcp_session::get_parser()
+{
+    return parser_;
 }
 
 void tcp_session::async_write(const std::shared_ptr<std::string>& network_data)

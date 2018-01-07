@@ -50,6 +50,7 @@ void router::route_thread(const std::shared_ptr<request>& req, const std::shared
     }
     else
     {
+        res->set_response(status_type::not_found);
         log_warn << "Route failed, uri: " << req->uri;
     }
 }

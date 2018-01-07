@@ -19,5 +19,8 @@ public:
     void stop();
 
 private:
+    void deal_add(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res);
+
+private:
     std::shared_ptr<http_server> server_;
 };

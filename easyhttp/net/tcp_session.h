@@ -24,8 +24,8 @@ public:
 
     void run();
     void close();
-    boost::asio::io_service& get_io_service();
     boost::asio::ip::tcp::socket& get_socket();
+    std::shared_ptr<http_parser>& get_parser();
     void async_write(const std::shared_ptr<std::string>& network_data);
 
 private:

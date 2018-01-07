@@ -8,11 +8,23 @@
 #pragma once
 
 #include "easyhttp/net/tcp_session.h"
+#include "easyhttp/http/http_parser.h"
+#include "easyhttp/http/status_types.h"
 
 struct response
 {
     response(const std::shared_ptr<tcp_session>& sess)
         : session(sess) {}
+
+    void set_response(status_type type)
+    {
+        session->async_write(session->get_parser()->pack(type));
+    }
+
+    void set_response(const std::string& body)
+    {
+        session->async_write(session->get_parser()->pack(status_type::ok, body));
+    }
 
     std::shared_ptr<tcp_session> session;
 };
