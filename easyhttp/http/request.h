@@ -18,7 +18,7 @@ struct param
 
 struct request
 {
-    std::string get_param(const std::string& name)
+    std::string get_param_value(const std::string& name)
     {
         for (auto& param : params)
         {
@@ -30,7 +30,7 @@ struct request
 
         return "";
     }
-    std::string get_header(const std::string& name)
+    std::string get_header_value(const std::string& name)
     {
         for (auto& header : headers)
         {

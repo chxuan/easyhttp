@@ -32,7 +32,7 @@ void http_server_test::stop()
 
 void http_server_test::deal_add(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
 {
-    int a = std::atoi(req->get_param("a").c_str());
-    int b = std::atoi(req->get_param("b").c_str());
+    int a = std::atoi(req->get_param_value("a").c_str());
+    int b = std::atoi(req->get_param_value("b").c_str());
     res->set_response(std::to_string(a + b));
 }

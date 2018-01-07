@@ -401,7 +401,7 @@ parse_result http_parser::deal_expecting_newline_3(std::shared_ptr<request>& req
     {
         if (req->method == "POST")
         {
-            body_len_ = std::atoi(req->get_header("Content-Length").c_str());
+            body_len_ = std::atoi(req->get_header_value("Content-Length").c_str());
             if (body_len_ != 0)
             {
                 req->body.resize(body_len_);
