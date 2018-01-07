@@ -85,27 +85,9 @@ void tcp_session::async_write_loop()
 
 void tcp_session::async_read()
 {
-#if 0
-    resize_buffer(codec_->get_next_recv_bytes());
-    auto self(shared_from_this());
-    boost::asio::async_read(socket_, boost::asio::buffer(buffer_), 
-                            [this, self](boost::system::error_code ec, std::size_t)
-    {
-        if (!ec)
-        {
-            codec_->decode(buffer_, self);
-            async_read();
-        }
-        else if (active_ && ec != boost::asio::error::operation_aborted)
-        {
-            deal_connection_closed();
-        }
-    });
-#endif
     auto self(shared_from_this());
     socket_.async_read_some(boost::asio::buffer(buffer_),
-                            [this, self](const boost::system::error_code& ec, 
-                                         std::size_t bytes_transferred)
+                            [this, self](const boost::system::error_code& ec, std::size_t bytes_transferred)
     {
         if (!ec)
         {
