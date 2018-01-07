@@ -7,7 +7,12 @@
  */
 #pragma once
 
-#include "request.h"
+#include <memory>
+#include <vector>
+#include "header.h"
+#include "status_types.h"
+
+class request;
 
 enum class parse_result : unsigned char
 {
@@ -47,48 +52,41 @@ enum class parse_state : unsigned char
 class http_parser
 {
 public:
-    template <typename InputIterator>
-    parse_result parse(request& req, InputIterator begin, InputIterator end)
-    {
-        while (begin != end)
-        {
-            parse_result ret = parse_each_char(req, *begin++);
-            if (ret != parse_result::indeterminate)
-            {
-                return ret;
-            }
-        }
-
-        return parse_result::indeterminate;
-    }
+    parse_result parse(std::shared_ptr<request>& req, char* begin, char* end);
+    std::shared_ptr<std::string> pack(status_type type, const std::string& body = "");
 
 private:
-    parse_result parse_each_char(request& req, char ch);
+    parse_result parse_each_char(std::shared_ptr<request>& req, char ch);
 
-    parse_result deal_method_start(request& req, char ch);
-    parse_result deal_method(request& req, char ch);
-    parse_result deal_uri(request& req, char ch);
-    parse_result deal_param_name_start(request& req, char ch);
-    parse_result deal_param_name(request& req, char ch);
-    parse_result deal_param_value(request& req, char ch);
+    parse_result deal_method_start(std::shared_ptr<request>& req, char ch);
+    parse_result deal_method(std::shared_ptr<request>& req, char ch);
+    parse_result deal_uri(std::shared_ptr<request>& req, char ch);
+    parse_result deal_param_name_start(std::shared_ptr<request>& req, char ch);
+    parse_result deal_param_name(std::shared_ptr<request>& req, char ch);
+    parse_result deal_param_value(std::shared_ptr<request>& req, char ch);
     parse_result deal_http_version_h(char ch);
     parse_result deal_http_version_t_1(char ch);
     parse_result deal_http_version_t_2(char ch);
     parse_result deal_http_version_p(char ch);
-    parse_result deal_http_version_slash(request& req, char ch);
-    parse_result deal_http_main_version_start(request& req, char ch);
-    parse_result deal_http_main_version(request& req, char ch);
-    parse_result deal_http_sub_version_start(request& req, char ch);
-    parse_result deal_http_sub_version(request& req, char ch);
+    parse_result deal_http_version_slash(std::shared_ptr<request>& req, char ch);
+    parse_result deal_http_main_version_start(std::shared_ptr<request>& req, char ch);
+    parse_result deal_http_main_version(std::shared_ptr<request>& req, char ch);
+    parse_result deal_http_sub_version_start(std::shared_ptr<request>& req, char ch);
+    parse_result deal_http_sub_version(std::shared_ptr<request>& req, char ch);
     parse_result deal_expecting_newline_1(char ch);
-    parse_result deal_header_line_start(request& req, char ch);
-    parse_result deal_header_lws(request& req, char ch);
-    parse_result deal_header_name(request& req, char ch);
+    parse_result deal_header_line_start(std::shared_ptr<request>& req, char ch);
+    parse_result deal_header_lws(std::shared_ptr<request>& req, char ch);
+    parse_result deal_header_name(std::shared_ptr<request>& req, char ch);
     parse_result deal_space_before_header_value(char ch);
-    parse_result deal_header_value(request& req, char ch);
+    parse_result deal_header_value(std::shared_ptr<request>& req, char ch);
     parse_result deal_expecting_newline_2(char ch);
-    parse_result deal_expecting_newline_3(request& req, char ch);
-    parse_result deal_body(request& req, char ch);
+    parse_result deal_expecting_newline_3(std::shared_ptr<request>& req, char ch);
+    parse_result deal_body(std::shared_ptr<request>& req, char ch);
+
+    std::vector<header> pack_header(int body_len);
+    std::shared_ptr<std::string> make_network_data(status_type type, 
+                                                   const std::vector<header>& headers, 
+                                                   const std::string& body);
 
     static bool is_char(int ch);
     static bool is_ctl(int ch);

@@ -10,6 +10,8 @@
 #include <boost/asio.hpp>
 #include <google/protobuf/message.h>
 
+class request;
+class response;
 class io_service_pool;
 class tcp_session;
 
@@ -21,6 +23,9 @@ public:
 
     virtual bool run();
     virtual void stop();
+
+protected:
+    virtual void deal_request(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res) = 0;
 
 private:
     bool start_listen();

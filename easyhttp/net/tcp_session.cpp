@@ -1,17 +1,20 @@
 #include "tcp_session.h"
+#include "easyhttp/http/request.h"
+#include "easyhttp/http/response.h"
+#include "easyhttp/http/http_parser.h"
 #include "easyhttp/utility/logger.h"
-#include <iostream>
 
-tcp_session::tcp_session(boost::asio::io_service& ios) 
+tcp_session::tcp_session(boost::asio::io_service& ios, const request_handler& func)
     : ios_(ios), 
-    socket_(ios)
+    socket_(ios),
+    func_(func)
 {
-
+    req_ = std::make_shared<request>();
+    parser_ = std::make_shared<http_parser>();
 }
 
 tcp_session::~tcp_session()
 {
-    std::cout << "********************end*************" << std::endl;
     close();
 }
 
@@ -92,33 +95,14 @@ void tcp_session::async_read()
     {
         if (!ec)
         {
-            log_info << "bytes_transferred: " << bytes_transferred;
-            log_info << buffer_.data();
-
-            parse_result ret = parser_.parse(request_, buffer_.data(), buffer_.data() + bytes_transferred);
+            parse_result ret = parser_->parse(req_, buffer_.data(), buffer_.data() + bytes_transferred);
             if (ret == parse_result::finished)
             {
-                std::cout << request_.method << std::endl;
-                std::cout << request_.uri << std::endl;
-                std::cout << request_.http_main_version << ", " << request_.http_sub_version << std::endl;
-                for (auto& param : request_.params)
-                {
-                    std::cout << param.name << ", " << param.value << std::endl;
-                }
-                for (auto& header : request_.headers)
-                {
-                    std::cout << header.name << ", " << header.value << std::endl;
-                }
-                std::cout << "body: " << request_.body << std::endl;
-
-                response rsp;
-                auto network_data = rsp.pack(status_type::ok, "nihao");
-                std::cout << *network_data << std::endl;
-                async_write(network_data);
+                func_(req_, std::make_shared<response>(self));
             }
             else if (ret == parse_result::error)
             {
-                std::cout << "parse error" << std::endl;
+                async_write(parser_->pack(status_type::bad_request, "Bad Request"));
             }
             else
             {
@@ -127,7 +111,7 @@ void tcp_session::async_read()
         }
         else if (active_ && ec != boost::asio::error::operation_aborted)
         {
-            deal_connection_closed();
+            close();
         }
     });
 }
@@ -138,9 +122,3 @@ void tcp_session::set_no_delay()
     boost::system::error_code ec;
     socket_.set_option(option, ec);
 }
-
-void tcp_session::deal_connection_closed()
-{
-    close();
-}
-

@@ -22,3 +22,8 @@ void http_server::stop()
 {
     tcp_server::stop();
 }
+
+void http_server::deal_request(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
+{
+
+}

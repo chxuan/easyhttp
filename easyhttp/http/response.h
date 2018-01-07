@@ -7,20 +7,13 @@
  */
 #pragma once
 
-#include <vector>
-#include <memory>
-#include "header.h"
-#include "status_types.h"
+#include "easyhttp/net/tcp_session.h"
 
-class response
+struct response
 {
-public:
-    std::shared_ptr<std::string> pack(status_type type, const std::string& body);
+    response(const std::shared_ptr<tcp_session>& sess)
+        : session(sess) {}
 
-private:
-    std::vector<header> pack_header(int body_len);
-    std::shared_ptr<std::string> make_network_data(status_type type, 
-                                                   const std::vector<header>& headers, 
-                                                   const std::string& body);
+    std::shared_ptr<tcp_session> session;
 };
 

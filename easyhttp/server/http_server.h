@@ -18,6 +18,9 @@ public:
     virtual bool run();
     virtual void stop();
 
+protected:
+    virtual void deal_request(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res);
+
 private:
     int work_threads_;
 };

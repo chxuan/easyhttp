@@ -69,7 +69,9 @@ bool tcp_server::listen(const std::string& ip, unsigned short port)
 
 void tcp_server::accept()
 {
-    auto session = std::make_shared<tcp_session>(pool_->get_io_service());
+    auto session = std::make_shared<tcp_session>(pool_->get_io_service(), std::bind(&tcp_server::deal_request, 
+                                                                                    this, std::placeholders::_1, 
+                                                                                    std::placeholders::_2));
     acceptor_.async_accept(session->get_socket(), [this, session](boost::system::error_code ec)
     {
         if (!ec)

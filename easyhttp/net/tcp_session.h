@@ -9,13 +9,17 @@
 
 #include <boost/asio.hpp>
 #include "easyhttp/utility/threadsafe_list.h"
-#include "easyhttp/http/http_parser.h"
-#include "easyhttp/http/response.h"
+
+class request;
+class response;
+class http_parser;
+
+using request_handler = std::function<void(const std::shared_ptr<request>&, const std::shared_ptr<response>&)>;
 
 class tcp_session : public std::enable_shared_from_this<tcp_session>
 {
 public:
-    tcp_session(boost::asio::io_service& ios);
+    tcp_session(boost::asio::io_service& ios, const request_handler& func);
     ~tcp_session();
 
     void run();
@@ -28,7 +32,6 @@ private:
     void async_write_loop();
     void async_read();
     void set_no_delay();
-    void deal_connection_closed();
 
 private:
     boost::asio::io_service& ios_;
@@ -37,6 +40,7 @@ private:
     std::array<char, 8192> buffer_;
     std::atomic<bool> active_{ false };
 
-    request request_;
-    http_parser parser_;
+    std::shared_ptr<request> req_;
+    std::shared_ptr<http_parser> parser_;
+    request_handler func_;
 };
