@@ -8,6 +8,7 @@
 #pragma once
 
 #include "easyhttp/net/tcp_server.h"
+#include "router.h"
 
 class http_server : public tcp_server
 {
@@ -17,10 +18,12 @@ public:
 
     virtual bool run();
     virtual void stop();
+    void bind(const std::string& uri, const request_handler& func);
 
 protected:
     virtual void deal_request(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res);
 
 private:
     int work_threads_;
+    router router_;
 };

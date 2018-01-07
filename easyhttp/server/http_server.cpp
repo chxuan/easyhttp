@@ -15,15 +15,33 @@ http_server::~http_server()
 
 bool http_server::run()
 {
-    return tcp_server::run();
+    if (router_.route_table_size() == 0)
+    {
+        log_warn << "Route table is empty";
+        return false;
+    }
+
+    if (tcp_server::run())
+    {
+        router_.run(work_threads_);
+        return true;
+    }
+
+    return false;
 }
 
 void http_server::stop()
 {
     tcp_server::stop();
+    router_.stop();
+}
+
+void http_server::bind(const std::string& uri, const request_handler& func)
+{
+    router_.bind(uri, func);
 }
 
 void http_server::deal_request(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
 {
-
+    router_.route(req, res);
 }
