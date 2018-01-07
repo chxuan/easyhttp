@@ -42,7 +42,7 @@ void http_server_test::deal_add(const std::shared_ptr<request>& req, const std::
 
 void http_server_test::deal_download(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
 {
-    std::string file_name = req->get_param_value("music");
+    std::string file_name = req->get_param_value("file_name");
     std::ifstream file(file_name, std::ios::binary);
     if (!file)
     {
