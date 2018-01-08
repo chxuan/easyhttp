@@ -27,8 +27,8 @@ A modern C++ http framework
         // 服务端将采用1个io线程和2个work线程服务
         auto server = std::make_shared<http_server>("0.0.0.0:6666", 1, 2);
 
-        // 2.绑定add函数
-        server->bind("/add", std::bind(add, _1, _2));
+        // 2.设置路由
+        server->route("/add", std::bind(add, _1, _2));
     
         // 3.启动事件循环（非阻塞）
         server->run();

@@ -36,12 +36,12 @@ void http_server::stop()
     router_.stop();
 }
 
-void http_server::bind(const std::string& uri, const request_handler& func)
+void http_server::route(const std::string& uri, const request_handler& func)
 {
-    router_.bind(uri, func);
+    router_.route(uri, func);
 }
 
 void http_server::deal_request(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
 {
-    router_.route(req, res);
+    router_.do_route(req, res);
 }

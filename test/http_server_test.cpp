@@ -6,8 +6,8 @@ using namespace std::placeholders;
 http_server_test::http_server_test()
 {
     server_ = std::make_shared<http_server>("0.0.0.0:6666", 4, 4);
-    server_->bind("/add", std::bind(&http_server_test::deal_add, this, _1, _2));
-    server_->bind("/download", std::bind(&http_server_test::deal_download, this, _1, _2));
+    server_->route("/add", std::bind(&http_server_test::deal_add, this, _1, _2));
+    server_->route("/download", std::bind(&http_server_test::deal_download, this, _1, _2));
 }
 
 http_server_test::~http_server_test()
