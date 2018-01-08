@@ -9,6 +9,8 @@
 
 #include "easyhttp/easyhttp.h"
 
+using namespace easyhttp;
+
 class http_server_test
 {
 public:
@@ -19,9 +21,9 @@ public:
     void stop();
 
 private:
-    void deal_add(const std::shared_ptr<easyhttp::request>& req, const std::shared_ptr<easyhttp::response>& res);
-    void deal_download(const std::shared_ptr<easyhttp::request>& req, const std::shared_ptr<easyhttp::response>& res);
+    void add(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res);
+    void download(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res);
 
 private:
-    std::shared_ptr<easyhttp::http_server> server_;
+    std::shared_ptr<http_server> server_;
 };
