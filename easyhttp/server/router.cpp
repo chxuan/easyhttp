@@ -3,6 +3,9 @@
 #include "easyhttp/http/response.h"
 #include "easyhttp/utility/logger.h"
 
+namespace easyhttp 
+{
+
 router::~router()
 {
     stop();
@@ -53,4 +56,6 @@ void router::route_thread(const std::shared_ptr<request>& req, const std::shared
         res->set_response(status_type::not_found);
         log_warn << "Route failed, uri: " << req->uri;
     }
+}
+
 }

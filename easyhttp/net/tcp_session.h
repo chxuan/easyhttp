@@ -10,6 +10,9 @@
 #include <boost/asio.hpp>
 #include "easyhttp/utility/threadsafe_list.h"
 
+namespace easyhttp 
+{
+
 class request;
 class response;
 class http_parser;
@@ -44,3 +47,5 @@ private:
     std::shared_ptr<http_parser> parser_;
     request_handler func_;
 };
+
+}

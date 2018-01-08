@@ -10,6 +10,9 @@
 #include <string>
 #include <unordered_map>
 
+namespace easyhttp 
+{
+
 class mime_types
 {
 public:
@@ -18,3 +21,5 @@ public:
 private:
     static std::unordered_map<std::string, std::string> mime_type_map_;    
 };
+
+}

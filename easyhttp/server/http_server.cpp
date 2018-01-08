@@ -1,6 +1,9 @@
 #include "http_server.h"
 #include "easyhttp/utility/logger.h"
 
+namespace easyhttp 
+{
+
 http_server::http_server(const std::string& host, int ios_threads, int work_threads)
     : tcp_server(host, ios_threads), 
     work_threads_(work_threads)
@@ -44,4 +47,6 @@ void http_server::route(const std::string& uri, const request_handler& func)
 void http_server::deal_request(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
 {
     router_.do_route(req, res);
+}
+
 }

@@ -1,6 +1,9 @@
 #include "http_parser.h"
 #include "request.h"
 
+namespace easyhttp 
+{
+
 static const std::string crlf = "\r\n";
 
 parse_result http_parser::parse(std::shared_ptr<request>& req, char* begin, char* end)
@@ -487,4 +490,6 @@ bool http_parser::is_line_begin(char ch)
 bool http_parser::is_line_end(char ch)
 {
     return ch == '\r';
+}
+
 }

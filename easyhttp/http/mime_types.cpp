@@ -1,5 +1,8 @@
 #include "mime_types.h"
 
+namespace easyhttp 
+{
+
 std::unordered_map<std::string, std::string> mime_types::mime_type_map_ =
 {
     { "gif", "image/gif" },
@@ -18,4 +21,6 @@ std::string mime_types::get_mime_type(const std::string& extension)
     }
 
     return "text/plain";
+}
+
 }

@@ -10,6 +10,9 @@
 #include <boost/asio.hpp>
 #include <google/protobuf/message.h>
 
+namespace easyhttp 
+{
+
 class request;
 class response;
 class io_service_pool;
@@ -37,3 +40,5 @@ private:
     std::shared_ptr<io_service_pool> pool_;
     boost::asio::ip::tcp::acceptor acceptor_;
 };
+
+}

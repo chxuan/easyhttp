@@ -5,7 +5,7 @@ using namespace std::placeholders;
 
 http_server_test::http_server_test()
 {
-    server_ = std::make_shared<http_server>("0.0.0.0:6666", 4, 4);
+    server_ = std::make_shared<easyhttp::http_server>("0.0.0.0:6666", 4, 4);
     server_->route("/add", std::bind(&http_server_test::deal_add, this, _1, _2));
     server_->route("/download", std::bind(&http_server_test::deal_download, this, _1, _2));
 }
@@ -32,7 +32,8 @@ void http_server_test::stop()
     server_->stop();
 }
 
-void http_server_test::deal_add(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
+void http_server_test::deal_add(const std::shared_ptr<easyhttp::request>& req, 
+                                const std::shared_ptr<easyhttp::response>& res)
 {
     int a = std::atoi(req->get_param_value("a").c_str());
     int b = std::atoi(req->get_param_value("b").c_str());
@@ -40,13 +41,14 @@ void http_server_test::deal_add(const std::shared_ptr<request>& req, const std::
     res->set_response(std::to_string(a + b));
 }
 
-void http_server_test::deal_download(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
+void http_server_test::deal_download(const std::shared_ptr<easyhttp::request>& req, 
+                                     const std::shared_ptr<easyhttp::response>& res)
 {
     std::string file_name = req->get_param_value("file_name");
     std::ifstream file(file_name, std::ios::binary);
     if (!file)
     {
-        res->set_response(status_type::not_found);
+        res->set_response(easyhttp::status_type::not_found);
         log_warn << "Not find file name: " << file_name;
         return;
     }

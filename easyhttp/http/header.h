@@ -9,9 +9,13 @@
 
 #include <string>
 
+namespace easyhttp 
+{
+
 struct header
 {
     std::string name;
     std::string value;
 };
 
+}

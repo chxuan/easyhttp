@@ -14,7 +14,8 @@ A modern C++ http framework
     
     using namespace std::placeholders;
 
-    void add(const std::shared_ptr<request>& req, const std::shared_ptr<response>& res)
+    void add(const std::shared_ptr<easyhttp::request>& req, 
+             const std::shared_ptr<easyhttp::response>& res)
     {
         int a = std::atoi(req->get_param_value("a").c_str());
         int b = std::atoi(req->get_param_value("b").c_str());
@@ -25,7 +26,7 @@ A modern C++ http framework
     {
         // 1.创建http server服务对象
         // 服务端将采用1个io线程和2个work线程服务
-        auto server = std::make_shared<http_server>("0.0.0.0:6666", 1, 2);
+        auto server = std::make_shared<easyhttp::http_server>("0.0.0.0:6666", 1, 2);
 
         // 2.设置路由
         server->route("/add", std::bind(add, _1, _2));

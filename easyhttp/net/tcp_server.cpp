@@ -4,6 +4,9 @@
 #include "easyhttp/utility/logger.h"
 #include "easyhttp/utility/utiltiy.h"
 
+namespace easyhttp 
+{
+
 tcp_server::tcp_server(const std::string& host, int ios_threads)
     : host_(host),
     pool_(std::make_shared<io_service_pool>(ios_threads)), 
@@ -80,4 +83,6 @@ void tcp_server::accept()
         }
         accept();
     });
+}
+
 }

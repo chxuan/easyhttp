@@ -11,6 +11,9 @@
 #include "easyhttp/http/http_parser.h"
 #include "easyhttp/http/status_types.h"
 
+namespace easyhttp 
+{
+
 struct response
 {
     response(const std::shared_ptr<tcp_session>& sess)
@@ -29,3 +32,4 @@ struct response
     std::shared_ptr<tcp_session> session;
 };
 
+}

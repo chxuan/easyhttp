@@ -10,6 +10,9 @@
 #include <string>
 #include <map>
 
+namespace easyhttp 
+{
+
 enum class status_type
 {
     ok = 200,
@@ -39,3 +42,4 @@ private:
     static std::map<status_type, std::string> status_type_map_;
 };
 
+}

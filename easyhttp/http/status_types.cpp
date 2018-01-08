@@ -1,5 +1,8 @@
 #include "status_types.h"
 
+namespace easyhttp 
+{
+
 std::map<status_type, std::string> status_types::status_type_map_ = 
 {
     { status_type::ok, "HTTP/1.0 200 OK" },
@@ -23,4 +26,6 @@ std::map<status_type, std::string> status_types::status_type_map_ =
 std::string status_types::to_string(status_type type)
 {
     return status_type_map_[type];
+}
+
 }

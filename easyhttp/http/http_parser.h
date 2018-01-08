@@ -12,6 +12,9 @@
 #include "header.h"
 #include "status_types.h"
 
+namespace easyhttp 
+{
+
 class request;
 
 enum class parse_result : unsigned char
@@ -101,3 +104,4 @@ private:
     int pos_ = 0;
 };
 
+}

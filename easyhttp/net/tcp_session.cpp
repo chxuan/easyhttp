@@ -4,6 +4,9 @@
 #include "easyhttp/http/http_parser.h"
 #include "easyhttp/utility/logger.h"
 
+namespace easyhttp 
+{
+
 tcp_session::tcp_session(boost::asio::io_service& ios, const request_handler& func)
     : ios_(ios), 
     socket_(ios),
@@ -121,4 +124,6 @@ void tcp_session::set_no_delay()
     boost::asio::ip::tcp::no_delay option(true);
     boost::system::error_code ec;
     socket_.set_option(option, ec);
+}
+
 }

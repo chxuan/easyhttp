@@ -10,6 +10,9 @@
 #include <vector>
 #include "header.h"
 
+namespace easyhttp 
+{
+
 struct param
 {
     std::string name;
@@ -30,6 +33,7 @@ struct request
 
         return "";
     }
+
     std::string get_header_value(const std::string& name)
     {
         for (auto& header : headers)
@@ -42,6 +46,7 @@ struct request
 
         return "";
     }
+
     std::string method;
     std::string uri;
     std::vector<param> params;
@@ -50,3 +55,5 @@ struct request
     std::vector<header> headers;
     std::string body;
 };
+
+}
