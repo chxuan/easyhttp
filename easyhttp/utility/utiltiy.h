@@ -15,8 +15,8 @@
 class utiltiy
 {
 public:
-    static std::vector<std::string> split(const std::string& str, const std::string& delimiter);
-    static bool contains(const std::string& str, const std::string& token);
+    inline static std::vector<std::string> split(const std::string& str, const std::string& delimiter);
+    inline static bool contains(const std::string& str, const std::string& token);
     static bool get_ip_and_port(const std::string& address, std::string& ip, unsigned short& port);
     static std::string get_time_us();
 };

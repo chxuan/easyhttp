@@ -14,37 +14,37 @@ template<typename T>
 class threadsafe_list
 {
 public:
-    void emplace_back(const T& t)
+    inline void emplace_back(const T& t)
     {
         lock_shared lock(mutex_);
         list_.emplace_back(t);
     }
 
-    T front()
+    inline T front()
     {
         lock_shared lock(mutex_, true);
         return list_.front();
     }
 
-    void pop_front()
+    inline void pop_front()
     {
         lock_shared lock(mutex_);
         list_.pop_front();
     }
 
-    void clear()
+    inline void clear()
     {
         lock_shared lock(mutex_);
         list_.clear();
     }
 
-    bool empty()
+    inline bool empty()
     {
         lock_shared lock(mutex_, true);
         return list_.empty();
     }
 
-    std::size_t size()
+    inline std::size_t size()
     {
         lock_shared lock(mutex_, true);
         return list_.size();

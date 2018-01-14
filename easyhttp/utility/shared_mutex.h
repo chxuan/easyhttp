@@ -22,17 +22,17 @@ public:
         pthread_rwlock_destroy(&mutex_);
     }
 
-    void lock_read()
+    inline void lock_read()
     {
         pthread_rwlock_rdlock(&mutex_);
     }
 
-    void lock_write()
+    inline void lock_write()
     {
         pthread_rwlock_wrlock(&mutex_);
     }
 
-    void unlock()
+    inline void unlock()
     {
         pthread_rwlock_unlock(&mutex_);
     }

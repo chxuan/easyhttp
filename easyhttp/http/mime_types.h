@@ -16,7 +16,7 @@ namespace easyhttp
 class mime_types
 {
 public:
-    static std::string get_mime_type(const std::string& extension);
+    inline static std::string get_mime_type(const std::string& extension);
 
 private:
     static std::unordered_map<std::string, std::string> mime_type_map_;    

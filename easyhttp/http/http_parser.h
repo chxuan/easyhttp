@@ -61,42 +61,42 @@ public:
 private:
     parse_result parse_each_char(std::shared_ptr<request>& req, char ch);
 
-    parse_result deal_method_start(std::shared_ptr<request>& req, char ch);
-    parse_result deal_method(std::shared_ptr<request>& req, char ch);
-    parse_result deal_uri(std::shared_ptr<request>& req, char ch);
-    parse_result deal_param_name_start(std::shared_ptr<request>& req, char ch);
-    parse_result deal_param_name(std::shared_ptr<request>& req, char ch);
-    parse_result deal_param_value(std::shared_ptr<request>& req, char ch);
-    parse_result deal_http_version_h(char ch);
-    parse_result deal_http_version_t_1(char ch);
-    parse_result deal_http_version_t_2(char ch);
-    parse_result deal_http_version_p(char ch);
-    parse_result deal_http_version_slash(std::shared_ptr<request>& req, char ch);
-    parse_result deal_http_main_version_start(std::shared_ptr<request>& req, char ch);
-    parse_result deal_http_main_version(std::shared_ptr<request>& req, char ch);
-    parse_result deal_http_sub_version_start(std::shared_ptr<request>& req, char ch);
-    parse_result deal_http_sub_version(std::shared_ptr<request>& req, char ch);
-    parse_result deal_expecting_newline_1(char ch);
-    parse_result deal_header_line_start(std::shared_ptr<request>& req, char ch);
-    parse_result deal_header_lws(std::shared_ptr<request>& req, char ch);
-    parse_result deal_header_name(std::shared_ptr<request>& req, char ch);
-    parse_result deal_space_before_header_value(char ch);
-    parse_result deal_header_value(std::shared_ptr<request>& req, char ch);
-    parse_result deal_expecting_newline_2(char ch);
-    parse_result deal_expecting_newline_3(std::shared_ptr<request>& req, char ch);
-    parse_result deal_body(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_method_start(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_method(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_uri(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_param_name_start(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_param_name(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_param_value(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_http_version_h(char ch);
+    inline parse_result deal_http_version_t_1(char ch);
+    inline parse_result deal_http_version_t_2(char ch);
+    inline parse_result deal_http_version_p(char ch);
+    inline parse_result deal_http_version_slash(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_http_main_version_start(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_http_main_version(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_http_sub_version_start(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_http_sub_version(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_expecting_newline_1(char ch);
+    inline parse_result deal_header_line_start(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_header_lws(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_header_name(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_space_before_header_value(char ch);
+    inline parse_result deal_header_value(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_expecting_newline_2(char ch);
+    inline parse_result deal_expecting_newline_3(std::shared_ptr<request>& req, char ch);
+    inline parse_result deal_body(std::shared_ptr<request>& req, char ch);
 
-    std::vector<header> pack_header(int body_len);
-    std::shared_ptr<std::string> make_network_data(status_type type, 
-                                                   const std::vector<header>& headers, 
-                                                   const std::string& body);
+    inline std::vector<header> pack_header(int body_len);
+    inline std::shared_ptr<std::string> make_network_data(status_type type, 
+                                                          const std::vector<header>& headers, 
+                                                          const std::string& body);
 
-    static bool is_char(int ch);
-    static bool is_ctl(int ch);
-    static bool is_tspecial(char ch);
-    static bool is_digit(char ch);
-    static bool is_line_begin(char ch);
-    static bool is_line_end(char ch);
+    inline static bool is_char(int ch);
+    inline static bool is_ctl(int ch);
+    inline static bool is_tspecial(char ch);
+    inline static bool is_digit(char ch);
+    inline static bool is_line_begin(char ch);
+    inline static bool is_line_end(char ch);
 
 private:
     parse_state state_ = parse_state::method_start;

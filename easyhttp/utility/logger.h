@@ -34,9 +34,9 @@ public:
     }
 
 private:
-    std::string get_level_string();
-    std::string make_log();
-    void print_log(const std::string& log);
+    inline std::string get_level_string();
+    inline std::string make_log();
+    inline void print_log(const std::string& log);
 
 private:
     std::shared_ptr<std::ostringstream> buffer_;
