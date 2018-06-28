@@ -1,5 +1,4 @@
-A modern C++ http framework
-===============================================
+## A modern C++ http framework
 
 > easyhttp是采用C++开发的，使用方便的http server库。
 
@@ -66,4 +65,4 @@ This software is licensed under the [MIT license][2]. © 2018 chxuan
 
 
   [1]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
-  [2]: https://github.com/chxuan/easyrpc/blob/master/LICENSE
+  [2]: https://github.com/chxuan/easyhttp/blob/master/LICENSE
