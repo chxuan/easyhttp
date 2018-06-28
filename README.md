@@ -1,4 +1,4 @@
-## A modern C++ http framework
+# A modern C++ http framework
 
 > easyhttp是采用C++开发的，使用方便的http server库。
 
